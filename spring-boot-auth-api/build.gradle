@@ -1,0 +1,91 @@
+plugins {
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+}
+
+group = 'com.authapi'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Starters
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    
+    // JWT Dependencies
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    
+    // Database
+    runtimeOnly 'com.h2database:h2'
+    
+    // Development Tools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    // Documentation
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    
+    // Test Dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    
+    // Annotation Processing
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Task to run BCrypt password encryption demo
+tasks.register('runBCryptDemo', JavaExec) {
+    group = 'application'
+    description = 'Demonstrates BCrypt password encryption functionality'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.authapi.demo.BCryptDemo'
+}
+
+// Task to run the application with profile
+tasks.register('runDev', JavaExec) {
+    group = 'application'
+    description = 'Run the application with development profile'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.authapi.AuthApiApplication'
+    args = ['--spring.profiles.active=dev']
+}
+
+// Ensure proper encoding
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// JAR configuration
+jar {
+    enabled = false
+    archiveClassifier = ''
+}
+
+bootJar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+    mainClass = 'com.authapi.AuthApiApplication'
+}

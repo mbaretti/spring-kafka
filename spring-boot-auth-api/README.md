@@ -16,7 +16,7 @@ A professional REST API built with Spring Boot featuring secure user authenticat
 ### Prerequisites
 
 - Java 17 or higher
-- Maven 3.6+
+- Gradle 8.5+ (or use the included wrapper)
 
 ### Installation
 
@@ -28,12 +28,19 @@ cd spring-boot-auth-api
 
 2. Build the project:
 ```bash
-mvn clean install
+./gradlew build
 ```
 
 3. Run the application:
 ```bash
-mvn spring-boot:run
+./gradlew bootRun
+# Or with development profile
+./gradlew runDev
+```
+
+4. **🔐 Test BCrypt Password Encryption:**
+```bash
+./gradlew runBCryptDemo
 ```
 
 The API will be available at `http://localhost:8080`

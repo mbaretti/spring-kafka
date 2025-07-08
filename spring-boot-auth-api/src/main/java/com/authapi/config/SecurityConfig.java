@@ -142,7 +142,7 @@ public class SecurityConfig {
                 
                 // Configure headers for H2 console (development only)
                 .headers(headers -> headers
-                        .frameOptions().sameOrigin()
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin())
                 );
 
         return http.build();
