@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'java'
+    id 'org.owasp.dependencycheck' version '9.0.7'
 }
 
 group = 'com.authapi'
@@ -88,4 +89,26 @@ jar {
 bootJar {
     archiveFileName = "${project.name}-${project.version}.jar"
     mainClass = 'com.authapi.AuthApiApplication'
+}
+
+// OWASP Dependency Check Configuration
+dependencyCheck {
+    format = 'ALL'
+    suppressionFile = 'owasp-suppressions.xml'
+    failBuildOnCVSS = 7.0
+    analyzers {
+        experimentalEnabled = true
+        archiveEnabled = true
+        jarEnabled = true
+        centralEnabled = true
+        nexusEnabled = false
+        pyDistributionEnabled = false
+        pyPackageEnabled = false
+        rubygemsEnabled = false
+        opensslEnabled = false
+        cmakeEnabled = false
+        autoconfEnabled = false
+        composerEnabled = false
+        nodeEnabled = false
+    }
 }

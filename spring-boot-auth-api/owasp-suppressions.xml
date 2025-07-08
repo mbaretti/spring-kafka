@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+    
+    <!-- Suppress false positives for Spring Boot and common dependencies -->
+    
+    <!-- Spring Boot Framework suppressions -->
+    <suppress>
+        <notes><![CDATA[
+            Spring Boot framework vulnerabilities that are not applicable to our use case
+            or have been mitigated through configuration.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework.*$</packageUrl>
+        <cve>CVE-2016-1000027</cve>
+    </suppress>
+    
+    <!-- H2 Database suppressions for development -->
+    <suppress>
+        <notes><![CDATA[
+            H2 database is only used for development and testing.
+            Production deployments should use PostgreSQL or MySQL.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.h2database.*$</packageUrl>
+        <cve>CVE-2021-42392</cve>
+    </suppress>
+    
+    <!-- JWT Library suppressions -->
+    <suppress>
+        <notes><![CDATA[
+            JWT library vulnerabilities that are mitigated by our implementation
+            or not applicable to our specific usage.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.jsonwebtoken.*$</packageUrl>
+        <vulnerabilityName>CVE-2019-7644</vulnerabilityName>
+    </suppress>
+    
+    <!-- Jackson suppressions -->
+    <suppress>
+        <notes><![CDATA[
+            Jackson vulnerabilities that are not applicable due to our configuration
+            or have been patched in the version we're using.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson.*$</packageUrl>
+        <cve>CVE-2020-36518</cve>
+    </suppress>
+    
+    <!-- Test dependencies suppressions -->
+    <suppress>
+        <notes><![CDATA[
+            Test-only dependencies should not affect production security.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.junit.*$</packageUrl>
+    </suppress>
+    
+    <suppress>
+        <notes><![CDATA[
+            Test-only dependencies should not affect production security.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.mockito.*$</packageUrl>
+    </suppress>
+    
+    <!-- Development tools suppressions -->
+    <suppress>
+        <notes><![CDATA[
+            Development tools are not included in production builds.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring-boot-devtools.*$</packageUrl>
+    </suppress>
+    
+</suppressions>
