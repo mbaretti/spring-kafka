@@ -127,6 +127,32 @@ docker-compose exec postgres psql -U authuser -d authdb
 docker-compose exec postgres psql -U authuser -d authdb
 ```
 
+### Flyway Database Migrations
+The application uses Flyway for database schema management:
+
+- **Automatic Migration**: Runs when application starts
+- **Schema Versioning**: All changes tracked in `flyway_schema_history` table
+- **Migration Files**: Located in `src/main/resources/db/migration/`
+
+#### Check Migration Status
+```bash
+# View migration history
+docker-compose exec postgres psql -U authuser -d authdb -c "SELECT * FROM flyway_schema_history ORDER BY installed_rank;"
+
+# Check current schema
+docker-compose exec postgres psql -U authuser -d authdb -c "\dt"
+```
+
+#### Default Users Created by Migrations
+| Username | Password | Role | Status |
+|----------|----------|------|--------|
+| admin | admin123 | ADMIN | Enabled |
+| testuser | user123 | USER | Enabled |
+| demouser | demo123 | USER | Enabled |
+| disabled | disabled123 | USER | Disabled |
+
+For detailed Flyway usage, see [FLYWAY_README.md](FLYWAY_README.md)
+
 ## 🔧 Troubleshooting
 
 ### Common Issues

@@ -174,6 +174,14 @@ spring.h2.console.path=/h2-console
 
 Access H2 Console: `http://localhost:8080/h2-console`
 
+### Database Migrations (Flyway)
+The application uses Flyway for database schema management:
+- **Automatic migrations** on application startup
+- **Versioned schema changes** in `src/main/resources/db/migration/`
+- **Default users** created automatically (admin/admin123, testuser/user123)
+
+For detailed migration guide, see [FLYWAY_README.md](FLYWAY_README.md)
+
 ### JWT Configuration
 ```properties
 app.jwt.secret=your-secret-key
@@ -231,11 +239,12 @@ curl -X GET http://localhost:8080/api/users/profile \
 
 1. **Change JWT Secret**: Generate a strong, unique secret key
 2. **Use PostgreSQL/MySQL**: Replace H2 with a production database
-3. **Enable HTTPS**: Configure SSL/TLS certificates
-4. **Environment Variables**: Use environment variables for sensitive configuration
-5. **Logging**: Configure appropriate logging levels
-6. **Rate Limiting**: Implement API rate limiting
-7. **Monitoring**: Add health checks and metrics
+3. **Database Migrations**: Test Flyway migrations on staging before production
+4. **Enable HTTPS**: Configure SSL/TLS certificates
+5. **Environment Variables**: Use environment variables for sensitive configuration
+6. **Logging**: Configure appropriate logging levels
+7. **Rate Limiting**: Implement API rate limiting
+8. **Monitoring**: Add health checks and metrics
 
 ### Environment Variables Example
 ```bash
@@ -256,6 +265,8 @@ export DB_PASSWORD=your-db-password
 - ✅ CORS Configuration
 - ✅ Password Strength Validation
 - ✅ Secure Password Change
+- ✅ Flyway Database Migrations
+- ✅ Docker Configuration
 - ✅ Clean Architecture Pattern
 
 ## 🤝 Contributing

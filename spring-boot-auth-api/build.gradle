@@ -40,6 +40,10 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
     
+    // Flyway Database Migration
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    
     // Development Tools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     
@@ -65,6 +69,14 @@ tasks.register('runBCryptDemo', JavaExec) {
     description = 'Demonstrates BCrypt password encryption functionality'
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.authapi.demo.BCryptDemo'
+}
+
+// Task to generate BCrypt hashes for migration scripts
+tasks.register('generatePasswordHashes', JavaExec) {
+    group = 'flyway'
+    description = 'Generate BCrypt password hashes for use in migration scripts'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.authapi.util.PasswordHashGenerator'
 }
 
 // Task to run the application with profile

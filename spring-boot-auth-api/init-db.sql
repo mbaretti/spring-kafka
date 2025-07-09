@@ -1,9 +1,8 @@
 -- ===============================
--- Database Initialization Script
+-- Database Initialization Script for Docker PostgreSQL
 -- ===============================
-
--- Create database if not exists (handled by POSTGRES_DB env var)
--- This script runs automatically when the container starts
+-- This script runs automatically when the PostgreSQL container starts
+-- Flyway will handle all schema migrations and data insertion
 
 -- Create extensions if needed
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -11,29 +10,18 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Set timezone
 SET timezone = 'UTC';
 
--- Create schemas if needed
--- CREATE SCHEMA IF NOT EXISTS auth;
-
--- Grant permissions
+-- Grant all necessary permissions to the application user
 GRANT ALL PRIVILEGES ON DATABASE authdb TO authuser;
 
--- Create any additional database objects here
--- Tables will be created automatically by Hibernate with ddl-auto=update
+-- Grant schema permissions (for Flyway)
+GRANT ALL ON SCHEMA public TO authuser;
 
--- Insert any initial data if needed
--- This will run only once when the database is first created
+-- Grant sequence permissions (for auto-increment)
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO authuser;
 
--- Example: Create a default admin user (uncomment if needed)
--- Note: This should be handled by the application startup logic instead
-/*
-INSERT INTO users (id, username, email, password, role, created_at, updated_at) 
-VALUES (
-    uuid_generate_v4(),
-    'admin',
-    'admin@example.com',
-    '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewYQ8UH..INC3wE.', -- BCrypt hash for 'admin123'
-    'ADMIN',
-    NOW(),
-    NOW()
-) ON CONFLICT (username) DO NOTHING;
-*/
+-- Grant table permissions (for future tables created by Flyway)
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO authuser;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO authuser;
+
+-- Note: All table creation and data insertion is now handled by Flyway migrations
+-- See src/main/resources/db/migration/ for migration scripts

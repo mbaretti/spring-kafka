@@ -1,0 +1,58 @@
+-- ===============================
+-- Flyway Migration V{N}: {Description}
+-- Description: Example template for future migrations
+-- Author: {Your Name}
+-- Date: {Date}
+-- ===============================
+
+-- IMPORTANT: This is a template file
+-- Rename this file to V{next_number}__{description}.sql before using
+
+-- Example: Adding a new table
+/*
+CREATE TABLE user_profiles (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    bio TEXT,
+    avatar_url VARCHAR(255),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add indexes
+CREATE INDEX idx_user_profiles_user_id ON user_profiles(user_id);
+
+-- Add trigger for updated_at
+CREATE TRIGGER user_profiles_updated_at_trigger
+    BEFORE UPDATE ON user_profiles
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Add comments
+COMMENT ON TABLE user_profiles IS 'Extended user profile information';
+COMMENT ON COLUMN user_profiles.user_id IS 'Reference to users table';
+*/
+
+-- Example: Adding a new column to existing table
+/*
+ALTER TABLE users ADD COLUMN last_login_at TIMESTAMP WITH TIME ZONE;
+CREATE INDEX idx_users_last_login_at ON users(last_login_at);
+COMMENT ON COLUMN users.last_login_at IS 'Timestamp of user last login';
+*/
+
+-- Example: Inserting reference data
+/*
+INSERT INTO user_roles (name, description) VALUES 
+    ('MODERATOR', 'User with moderation privileges'),
+    ('GUEST', 'Limited access user')
+ON CONFLICT (name) DO NOTHING;
+*/
+
+-- Example: Data migration
+/*
+UPDATE users 
+SET last_login_at = created_at 
+WHERE last_login_at IS NULL;
+*/
