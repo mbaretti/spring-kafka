@@ -1,0 +1,45 @@
+# Docker Compose Override for Development
+version: '3.8'
+
+services:
+  # Override auth-api for development
+  auth-api:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,dev
+      SPRING_JPA_SHOW_SQL: true
+      LOG_LEVEL: DEBUG
+    volumes:
+      # Hot reload for development (uncomment if needed)
+      # - ./src:/app/src:ro
+      - ./logs:/app/logs
+    
+  # Add pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: auth-api-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@authapi.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - auth-network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  # Add Mailhog for email testing (if needed)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: auth-api-mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - auth-network
+
+volumes:
+  pgadmin_data:
+    driver: local
