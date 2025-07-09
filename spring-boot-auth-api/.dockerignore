@@ -1,0 +1,51 @@
+# Exclude build outputs
+build/
+target/
+*.jar
+*.war
+
+# Exclude version control
+.git/
+.gitignore
+
+# Exclude IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Exclude OS files
+.DS_Store
+Thumbs.db
+
+# Exclude Docker files
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Exclude documentation
+*.md
+CREATE_PR_INSTRUCTIONS.md
+API_IMPLEMENTATION_SUMMARY.md
+GITHUB_ACTIONS_IMPLEMENTATION.md
+GRADLE_MIGRATION_SUMMARY.md
+PR_TEMPLATE.md
+
+# Exclude CI/CD files
+.github/
+.travis.yml
+
+# Exclude logs
+logs/
+*.log
+
+# Exclude test reports
+test-results/
+build/reports/
+
+# Exclude OWASP suppressions (not needed in runtime)
+owasp-suppressions.xml
+
+# Exclude gradle daemon files
+.gradle/
